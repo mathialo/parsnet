@@ -8,7 +8,7 @@ setup(
     author_email="mathialo@ifi.uio.no",
     license="MIT",
     description="TensorFlow implementation of the constraints necessary for parseval networks",
-    url="https://github.com/?/parsnet",
+    url="https://github.com/mathialo/parsnet",
     install_requires=["tensorflow>=1.5"],
     packages=["parsnet"],
     zip_safe=False)
