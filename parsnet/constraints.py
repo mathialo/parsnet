@@ -11,15 +11,19 @@ class TightFrame(Constraint):
     to adversarial noise.
 
     Args:
-        beta (float):   Retraction parameter.
+        scale (float):   Retraction parameter.
 
     Returns:
         Weight matrix after applying regularizer.
     """
 
 
-    def __init__(self, beta):
-        self.beta = beta
+    def __init__(self, scale, num_passes):
+        self.scale = scale
+
+        if num_passes < 1:
+            raise ValueError("Number of passes cannot be non-positive! (got {})".format(num_passes))
+        self.num_passes = num_passes
 
 
     def __call__(self, w):
@@ -27,25 +31,26 @@ class TightFrame(Constraint):
 
         # Move channels to the front in order to make the dimensions correct for matmul
         if transpose_channels:
-            w_reordered = array_ops.transpose(w, perm=[3, 0, 1, 2])
+            w_reordered = array_ops.transpose(w, perm=[1, 2, 3, 0])
         else:
-            w_reordered = w
+            w_reordered = array_ops.transpose(w)
 
 
         # Perform the projection
-        result_reordered = (1 + self.beta) * w_reordered - self.beta * math_ops.matmul(
-            w_reordered,
-            math_ops.matmul(w_reordered, w_reordered, transpose_a=True))
+        for i in range(self.num_passes):
+            result_reordered = (1 + self.scale) * w_reordered - self.scale * math_ops.matmul(
+                w_reordered,
+                math_ops.matmul(w_reordered, w_reordered, transpose_a=True))
 
         # Move channels to the back again
         if transpose_channels:
-            return array_ops.transpose(result_reordered, perm=[1, 2, 3, 0])
+            return array_ops.transpose(result_reordered, perm=[3, 0, 1, 2])
         else:
-            return result_reordered
+            return array_ops.transpose(result_reordered)
 
 
     def get_config(self):
-        return {'beta': self.beta}
+        return {'scale': self.scale, 'num_passes': self.num_passes}
 
 
 # Alias
