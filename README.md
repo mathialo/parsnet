@@ -6,7 +6,7 @@ Parseval networks constrain the weight matrices of neural networks to be tight f
 
 ## Example use
 Using the `parsnet` package is very easy. Simply import `parsnet` and use the [`kernel_constraint`](https://www.tensorflow.org/api_docs/python/tf/layers/conv2d#arguments) keyword argument on your layers of choice:
-```
+``` python
 import tensorflow as tf
 import parsnet
 
