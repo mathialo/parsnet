@@ -1,7 +1,7 @@
 # parsnet
 TensorFlow implementation of the constraints necessary for [Parseval networks](https://arxiv.org/abs/1704.08847).
 
-Parseval networks constrain the weight matrices of neural networks to be tight frames, so that the Lipschitz constant of the entire network is <= 1. Thus, the network will be stable to adversarial noise.
+Parseval networks constrain the weight matrices of neural networks to be tight frames, so that the Lipschitz constant of the entire network is <= 1. This makes the entire network a contraction, and limits the amount an adversarial perturbation can propagate through the network. For an in-depth introduction to this regularization technique, consult [the original article](https://arxiv.org/pdf/1704.08847.pdf)/
 
 
 ## Example use
@@ -13,7 +13,6 @@ import parsnet
 
 img_size = (32, 32, 3)
 batch_size = 512
-train_epochs = 100
 retraction_par = 0.001
 num_passes = 1
 
@@ -36,3 +35,5 @@ layer1 = tf.layers.conv2d(
 ...
 
 ```
+
+Since the Parseval contraint limits the weight matrices to have orthonormal rows, we recommend using the `tf.initializers.orthogonal` initializer to ensure that this criteria is met when the network is initialized. 
