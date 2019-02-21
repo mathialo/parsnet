@@ -1,7 +1,7 @@
 # parsnet
 TensorFlow implementation of the constraints necessary for [Parseval networks](https://arxiv.org/abs/1704.08847).
 
-Parseval networks constrain the weight matrices of neural networks to be tight frames, so that the Lipschitz constant of the entire network is <= 1. This makes the entire network a contraction, and limits the amount an adversarial perturbation can propagate through the network. For an in-depth introduction to this regularization technique, consult [the original article](https://arxiv.org/pdf/1704.08847.pdf)/
+Parseval networks constrain the weight matrices of neural networks to be tight frames, so that the Lipschitz constant of the entire network is <= 1. This makes the entire network a contraction, and limits the amount an adversarial perturbation can propagate through the network. For an in-depth introduction to this regularization technique, consult [the original article](https://arxiv.org/pdf/1704.08847.pdf).
 
 
 ## Example use
