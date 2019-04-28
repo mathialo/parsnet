@@ -42,7 +42,7 @@ layer1 = tf.layers.conv2d(
     name="convlayer1",
 
     # Applying Parseval constraint:
-    kernel_constraint=parsnet.constraints.tight_frame(beta, num_passes)
+    kernel_constraint=parsnet.constraints.tight_frame(retraction_par, num_passes)
 )
 
 ...
@@ -62,7 +62,7 @@ def res_block(input_layer):
         padding="SAME",
         activation=tf.nn.relu,
         kernel_initializer=tf.initializers.orthogonal(),
-        kernel_constraint=parsnet.constraints.tight_frame(beta, num_passes)
+        kernel_constraint=parsnet.constraints.tight_frame(0.001)
     )
     layer2 = tf.layers.conv2d(
         inputs=layer1,
@@ -72,7 +72,7 @@ def res_block(input_layer):
         padding="SAME",
         activation=tf.nn.relu,
         kernel_initializer=tf.initializers.orthogonal(),
-        kernel_constraint=parsnet.constraints.tight_frame(beta, num_passes)
+        kernel_constraint=parsnet.constraints.tight_frame(0.001)
     )    
     layer3 = tf.layers.conv2d(
         inputs=layer2,
@@ -82,7 +82,7 @@ def res_block(input_layer):
         padding="SAME",
         activation=tf.nn.relu,
         kernel_initializer=tf.initializers.orthogonal(),
-        kernel_constraint=parsnet.constraints.tight_frame(beta, num_passes)
+        kernel_constraint=parsnet.constraints.tight_frame(0.001)
     )
 
     return parsnet.nn.convex_add(input_layer, layer3, 
